@@ -1,107 +1,106 @@
-## Registry and Credentialling 2.0
+# 🛠️ Environment Setup Guide
 
+This document provides step-by-step instructions to initialize the environment, configure Keycloak, and update the registry setup.
 
-# Steps to setup registry 2.0 :
+---
 
-## System requirements
+## 🧩 Step 1: Initialize Docker Compose
 
-- 4 Cores
-- 8 GB RAM
-- Min 100 GB disk
-
-## Prerequisites 
-
-- This guide assumes a some familiarity with basic linux commands. If not, [here](https://ubuntu.com/tutorials/command-line-for-beginners#1-overview) is a great place to start.
-- Don't copy-paste the $ signs, they indicate that what follows is a terminal command
-
-## Terminal emulator
-- Linux and MacOS will have a terminal installed already. For Windows, it is recommended that you use git-bash, which you can install from [here](https://git-scm.com/download/win).
-- Type echo Hi in the terminal once it is installed. If installed correctly, you should see Hi appear when you hit enter.
-
-## Docker
-
-- Installation instructions for Docker can be found [here](https://docs.docker.com/engine/install/).
-- Run docker -v in terminal to check if docker has been installed correctly:
-
-```bash 
-   docker -v
-```
-
-## Docker Compose
-- Installation instructions can be found [here](https://docs.docker.com/compose/install/).
-- Run docker compose version in the terminal to check if docker compose has been installed correctly:
-
-```bash
-docker compose version
-```
-
-
-## Installation
-
-- We have already created a .env file for basic setup. This configuration will help your setup the basic verison of registry 2.0 for issuing credentials. If you want to customize any settings of the registry you can edit the .env file or else you can go ahead with this configuration
-
-- We are using Hashicorp vault as the keystore manager. You can know more about it [here](https://www.vaultproject.io/)
-
-- The first step will be to start the vault using the below command 
+Run the following command to set up and start the initial containers:
 
 ```bash
 make compose-init
-
 ```
 
-- This will start the vault service. If it fails to start the vault might already be up and running.
+---
 
-- Once the vault is up and running and unsealed, it will generate a set of 5 keys which can be user futher to unseal the vault and a root access token to access the vault as a default user. All these data is stored in the keys.txt. This will be generated run time.
+## 🗄️ Step 2: Disable SSL Requirement in Keycloak Database
 
-- Create the schema files in the schemas directory. We have already provided example schemas (Official.json and Insurance.json)
+1. **SSH into the PostgreSQL container:**
 
-### Steps to setup keycloak:
+   ```bash
+   docker exec -it <postgres-container-name> sh
+   ```
+   ```bash
+   psql -U <username> -d <database-name>
+   ```
 
-- Open the keycloak admin console `http://localhost:8080/auth/`
-- Goto Clients -> admin-api -> Credentials
-- Click on Regenerate Secret and copy the new value
-- Set KEYCLOAK_SECRET with the copied value in .env file
-- Add a DNS mapping in your /etc/hosts file
+2. **Execute the following SQL commands to disable SSL for the required realms:**
 
-```bash 
+   ```sql
+   UPDATE REALM SET ssl_required = 'NONE' WHERE id = 'master';
+   UPDATE REALM SET ssl_required = 'NONE' WHERE id = 'sunbird-rc';
+   ```
 
-cat /etc/hosts
+3. **Exit the PostgreSQL session and restart the Keycloak container:**
 
-nano /etc/hosts
+   ```bash
+   docker restart <keycloak-container-name>
+   ```
 
-```
-- edit this file and add a new mapping ex : (127.0.0.1	keycloak)
+---
 
-- Start all the services:
+## ⚙️ Step 3: Update Keycloak Configuration
 
-```bash
-docker-compose up -d
+1. **Log in to the Keycloak Admin Console.**
 
-```
+2. **Navigate to the target realm** (for example, `sunbird-rc`).
 
-- Check if all the services are started using 
+3. **Update the Frontend URL** to match your deployment environment.
+`Ex: http://<ip>:8080/auth`
+4. **(New) Create an Admin User**
+   1. From the left menu, navigate to Users → Add User.
+   2. Enter the Username: admin.
+   3. Click Create.
+   4. Open the Credentials tab.
+   5. Set the Password to abcd@123.
+   6. Turn off the Temporary option.
+   7. Click Set Password and confirm.
+   8. Go to the Role Mappings tab.
+   9. Under Available Roles, select admin and click Add Selected.
 
-```bash
-docker-compose ps
+---
 
-```
+## 🔑 Step 4: Generate and Configure a Secret
 
-- Access the registry swagger json `http://localhost:8081/api/docs/swagger.json`
+1. **From the Keycloak UI, generate a new client secret** for your client.
 
-- We have added a postman collection for registry 2.0 in the postmanCollection/ directory.
+2. **Update the `.env` file** with the generated secret:
 
+   ```env
+   KEYCLOAK_SECRET=<your-new-secret>
+   ```
 
-- To start vault from scratch you can use this commands. Remove the existing volumes vault-data and db-data, and stop all the running docker containers 
-- Use this commands only when you want to start the vault service from scratch. 
+3. **Restart the Registry container** to apply the updated configuration:
 
-``` bash 
+   ```bash
+   docker-compose up -d --force-recreate --no-deps registry
+   ```
 
-sudo docker compose down 
+---
+## 🚀 Step 5: Trigger APIs with Postman
 
-sudo rm -rf db-data/ vault-data/
+1. **Import the Postman Collection:**
+   - Open Postman.
+   - Click on `Import` and select the `postmancollection.json` file.
 
-```
+2. **Configure Postman Environment:**
+   - Create a new Postman environment.
 
-## Postman_Collection 
+3. **Execute API Requests:**
+   - Select the configured environment.
+   - Run the requests within the imported collection to test the APIs.
 
-https://api.postman.com/collections/13315057-7e45f3d2-7232-4787-8cb7-72708bb122c1?access_key=PMAT-01HS0FYYFHFKJRP6AX1A0ETYBZ
+## ✅ Verification
+
+After completing all steps, verify that:
+- All containers are running properly
+- Keycloak is accessible without SSL errors
+- The registry can authenticate with Keycloak using the new secret
+
+## 🔧 Troubleshooting
+
+If you encounter issues:
+- Check container logs using `docker logs <container-name>`
+- Verify environment variables are correctly set
+- Ensure all containers are on the same Docker network

@@ -1,0 +1,1301 @@
+{
+    "info": {
+        "_postman_id": "caf5580a-7357-4c40-a5e1-d905e06b9888",
+        "name": "Claim Flow",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "2756860"
+    },
+    "item": [
+        {
+            "name": "1. Admin Token",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "let jsonData = pm.response.json();",
+                            "pm.collectionVariables.set(\"admin_token\", jsonData?.access_token);"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "content-type",
+                        "value": "application/x-www-form-urlencoded"
+                    }
+                ],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "client_id",
+                            "value": "registry-frontend",
+                            "type": "text"
+                        },
+                        {
+                            "key": "username",
+                            "value": "admin",
+                            "type": "text"
+                        },
+                        {
+                            "key": "password",
+                            "value": "abcd@123",
+                            "type": "text"
+                        },
+                        {
+                            "key": "grant_type",
+                            "value": "password",
+                            "type": "text"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{host}}/auth/realms/sunbird-rc/protocol/openid-connect/token",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "auth",
+                        "realms",
+                        "sunbird-rc",
+                        "protocol",
+                        "openid-connect",
+                        "token"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "2. Create new Teacher",
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "{{admin_token}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {access-token}",
+                        "type": "text",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name\": \"Teacher One\",\n  \"mobile\": \"9010901010\",\n  \"email\": \"teacher1@test.com\",\n  \"subject\": \"English\",\n  \"instituteName\": \"IIT Bombay\",\n  \"gender\": \"Male\"\n}",
+                    "options": {
+                        "raw": {
+                            "headerFamily": "json",
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{host}}/registry/api/v1/Teacher",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "registry",
+                        "api",
+                        "v1",
+                        "Teacher"
+                    ]
+                },
+                "description": "Create new Teacher"
+            },
+            "response": [
+                {
+                    "name": "OK",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"<string>\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"instituteName\": \"<string>\",\n  \"gender\": \"<string>\"\n}",
+                            "options": {
+                                "raw": {
+                                    "headerFamily": "json",
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/Teacher",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "Teacher"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n  \"name\": \"<string>\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<string>\",\n  \"subject\": \"<string>\",\n  \"instituteName\": \"<string>\",\n  \"gender\": \"<string>\"\n}"
+                },
+                {
+                    "name": "Create new Teacher",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {access-token}",
+                                "type": "text",
+                                "disabled": true
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"SN Tiwari\",\n  \"mobile\": \"9192919292\",\n  \"email\": \"sntiwari@test.com\",\n  \"subject\": \"English\",\n  \"instituteName\": \"Sanketika\",\n  \"gender\": \"Male\"\n}",
+                            "options": {
+                                "raw": {
+                                    "headerFamily": "json",
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/registry/api/v1/Teacher",
+                            "protocol": "http",
+                            "host": [
+                                "98",
+                                "70",
+                                "25",
+                                "20"
+                            ],
+                            "path": [
+                                "registry",
+                                "api",
+                                "v1",
+                                "Teacher"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": null,
+                    "header": [
+                        {
+                            "key": "Server",
+                            "value": "nginx/1.29.2"
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Thu, 20 Nov 2025 12:46:40 GMT"
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Transfer-Encoding",
+                            "value": "chunked"
+                        },
+                        {
+                            "key": "Connection",
+                            "value": "keep-alive"
+                        },
+                        {
+                            "key": "Set-Cookie",
+                            "value": "JSESSIONID=87F5CD92718F46A9B6551690B27AD56B; Path=/; HttpOnly"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Origin"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Access-Control-Request-Method"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Access-Control-Request-Headers"
+                        },
+                        {
+                            "key": "X-Content-Type-Options",
+                            "value": "nosniff"
+                        },
+                        {
+                            "key": "X-XSS-Protection",
+                            "value": "1; mode=block"
+                        },
+                        {
+                            "key": "Cache-Control",
+                            "value": "no-cache, no-store, max-age=0, must-revalidate"
+                        },
+                        {
+                            "key": "Pragma",
+                            "value": "no-cache"
+                        },
+                        {
+                            "key": "Expires",
+                            "value": "0"
+                        },
+                        {
+                            "key": "X-Frame-Options",
+                            "value": "DENY"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n    \"id\": \"sunbird-rc.registry.post\",\n    \"ver\": \"1.0\",\n    \"ets\": 1763642800510,\n    \"params\": {\n        \"resmsgid\": \"\",\n        \"msgid\": \"d2fb5322-bd7a-4dde-94c1-6c012d84186f\",\n        \"err\": \"\",\n        \"status\": \"SUCCESSFUL\",\n        \"errmsg\": \"\"\n    },\n    \"responseCode\": \"OK\",\n    \"result\": {\n        \"Teacher\": {\n            \"osid\": \"1-a0adf216-3a91-43aa-b978-42cc7118f54a\"\n        }\n    }\n}"
+                },
+                {
+                    "name": "Create new Teacher",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {access-token}",
+                                "type": "text",
+                                "disabled": true
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"SN Tiwari\",\n  \"mobile\": \"9192919292\",\n  \"email\": \"sntiwari@test.com\",\n  \"subject\": \"English\",\n  \"instituteName\": \"Sanketika\",\n  \"gender\": \"Male\"\n}",
+                            "options": {
+                                "raw": {
+                                    "headerFamily": "json",
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{host}}/registry/api/v1/Teacher",
+                            "protocol": "http",
+                            "path": [
+                                "registry",
+                                "api",
+                                "v1",
+                                "Teacher"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": null,
+                    "header": [
+                        {
+                            "key": "Server",
+                            "value": "nginx/1.29.2"
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Thu, 20 Nov 2025 12:46:40 GMT"
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Transfer-Encoding",
+                            "value": "chunked"
+                        },
+                        {
+                            "key": "Connection",
+                            "value": "keep-alive"
+                        },
+                        {
+                            "key": "Set-Cookie",
+                            "value": "JSESSIONID=87F5CD92718F46A9B6551690B27AD56B; Path=/; HttpOnly"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Origin"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Access-Control-Request-Method"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Access-Control-Request-Headers"
+                        },
+                        {
+                            "key": "X-Content-Type-Options",
+                            "value": "nosniff"
+                        },
+                        {
+                            "key": "X-XSS-Protection",
+                            "value": "1; mode=block"
+                        },
+                        {
+                            "key": "Cache-Control",
+                            "value": "no-cache, no-store, max-age=0, must-revalidate"
+                        },
+                        {
+                            "key": "Pragma",
+                            "value": "no-cache"
+                        },
+                        {
+                            "key": "Expires",
+                            "value": "0"
+                        },
+                        {
+                            "key": "X-Frame-Options",
+                            "value": "DENY"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n    \"id\": \"sunbird-rc.registry.post\",\n    \"ver\": \"1.0\",\n    \"ets\": 1763642800510,\n    \"params\": {\n        \"resmsgid\": \"\",\n        \"msgid\": \"d2fb5322-bd7a-4dde-94c1-6c012d84186f\",\n        \"err\": \"\",\n        \"status\": \"SUCCESSFUL\",\n        \"errmsg\": \"\"\n    },\n    \"responseCode\": \"OK\",\n    \"result\": {\n        \"Teacher\": {\n            \"osid\": \"1-a0adf216-3a91-43aa-b978-42cc7118f54a\"\n        }\n    }\n}"
+                }
+            ]
+        },
+        {
+            "name": "3. Teacher Token",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "let jsonData = pm.response.json();",
+                            "pm.collectionVariables.set(\"teacher_token\", jsonData?.access_token);"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "content-type",
+                        "value": "application/x-www-form-urlencoded"
+                    }
+                ],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "client_id",
+                            "value": "registry-frontend",
+                            "type": "text"
+                        },
+                        {
+                            "key": "username",
+                            "value": "9010901010",
+                            "type": "text"
+                        },
+                        {
+                            "key": "password",
+                            "value": "abcd@123",
+                            "type": "text"
+                        },
+                        {
+                            "key": "grant_type",
+                            "value": "password",
+                            "type": "text"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{host}}/auth/realms/sunbird-rc/protocol/openid-connect/token",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "auth",
+                        "realms",
+                        "sunbird-rc",
+                        "protocol",
+                        "openid-connect",
+                        "token"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "4. Create new Student",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "let jsonData = pm.response.json();",
+                            "pm.collectionVariables.set(\"student_osid\", jsonData?.result?.Student?.osid);"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                    }
+                }
+            ],
+            "request": {
+                "auth": {
+                    "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{teacher_token}}",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"fullName\": \"Student One\",\n  \"dob\": \"1988-08-28\",\n  \"gender\": \"Male\",\n  \"mobile\": \"9292929292\",\n  \"email\": \"stidentone@test.com\",\n  \"instituteName\": \"IIT Bombay\",\n  \"degree\": \"B.Tech\",\n  \"grade\": \"9.10\"\n}",
+                    "options": {
+                        "raw": {
+                            "headerFamily": "json",
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{host}}/registry/api/v1/Student",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "registry",
+                        "api",
+                        "v1",
+                        "Student"
+                    ]
+                },
+                "description": "Create new Student"
+            },
+            "response": [
+                {
+                    "name": "OK",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"fullName\": \"<string>\",\n  \"dob\": \"<date>\",\n  \"gender\": \"Other\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<string>\",\n  \"instituteName\": \"<string>\"\n}",
+                            "options": {
+                                "raw": {
+                                    "headerFamily": "json",
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/Student",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "Student"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n  \"fullName\": \"<string>\",\n  \"dob\": \"<date>\",\n  \"gender\": \"Other\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<string>\",\n  \"instituteName\": \"<string>\"\n}"
+                },
+                {
+                    "name": "Create new Student",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{teacher_token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"fullName\": \"jerald J\",\n  \"dob\": \"1988-08-28\",\n  \"gender\": \"Male\",\n  \"mobile\": \"9292929291\",\n  \"email\": \"jerald@test.com\",\n  \"instituteName\": \"Sanketika\"\n}",
+                            "options": {
+                                "raw": {
+                                    "headerFamily": "json",
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/Student",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "Student"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": null,
+                    "header": [
+                        {
+                            "key": "Server",
+                            "value": "nginx/1.29.2"
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Thu, 20 Nov 2025 12:47:56 GMT"
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Transfer-Encoding",
+                            "value": "chunked"
+                        },
+                        {
+                            "key": "Connection",
+                            "value": "keep-alive"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Origin"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Access-Control-Request-Method"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Access-Control-Request-Headers"
+                        },
+                        {
+                            "key": "X-Content-Type-Options",
+                            "value": "nosniff"
+                        },
+                        {
+                            "key": "X-XSS-Protection",
+                            "value": "1; mode=block"
+                        },
+                        {
+                            "key": "Cache-Control",
+                            "value": "no-cache, no-store, max-age=0, must-revalidate"
+                        },
+                        {
+                            "key": "Pragma",
+                            "value": "no-cache"
+                        },
+                        {
+                            "key": "Expires",
+                            "value": "0"
+                        },
+                        {
+                            "key": "X-Frame-Options",
+                            "value": "DENY"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n    \"id\": \"sunbird-rc.registry.post\",\n    \"ver\": \"1.0\",\n    \"ets\": 1763642876363,\n    \"params\": {\n        \"resmsgid\": \"\",\n        \"msgid\": \"2851b4b9-5209-4346-b12e-2cdd62799e23\",\n        \"err\": \"\",\n        \"status\": \"SUCCESSFUL\",\n        \"errmsg\": \"\"\n    },\n    \"responseCode\": \"OK\",\n    \"result\": {\n        \"Student\": {\n            \"osid\": \"1-943a4cd1-a911-4076-a5e8-b8dfd2d6c2d0\"\n        }\n    }\n}"
+                }
+            ]
+        },
+        {
+            "name": "5. Student Token",
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [
+                            ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "let jsonData = pm.response.json();",
+                            "pm.collectionVariables.set(\"student_token\", jsonData?.access_token);"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {},
+                        "requests": {}
+                    }
+                }
+            ],
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "{{teacher_token}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "content-type",
+                        "value": "application/x-www-form-urlencoded"
+                    }
+                ],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "client_id",
+                            "value": "registry-frontend",
+                            "type": "text"
+                        },
+                        {
+                            "key": "username",
+                            "value": "jerald1@test.com",
+                            "type": "text"
+                        },
+                        {
+                            "key": "password",
+                            "value": "abcd@123",
+                            "type": "text"
+                        },
+                        {
+                            "key": "grant_type",
+                            "value": "password",
+                            "type": "text"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{host}}/auth/realms/sunbird-rc/protocol/openid-connect/token",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "auth",
+                        "realms",
+                        "sunbird-rc",
+                        "protocol",
+                        "openid-connect",
+                        "token"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "6. Student Read",
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "{{student_token}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    }
+                ],
+                "url": {
+                    "raw": "{{host}}/registry/api/v1/Student/{{student_osid}}",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "registry",
+                        "api",
+                        "v1",
+                        "Student",
+                        "{{student_osid}}"
+                    ]
+                }
+            },
+            "response": [
+                {
+                    "name": "OK",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/Student",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "Student"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n  \"fullName\": \"<string>\",\n  \"dob\": \"<date>\",\n  \"gender\": \"Other\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<string>\",\n  \"instituteName\": \"<string>\"\n}"
+                }
+            ]
+        },
+        {
+            "name": "7. Raise An Attestation",
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "{{student_token}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"entityName\": \"Student\",\n    \"entityId\": \"{{student_osid}}\",\n    \"name\": \"studentInstituteAttest\"\n}",
+                    "options": {
+                        "raw": {
+                            "headerFamily": "json",
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{host}}/registry/api/v1/send",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "registry",
+                        "api",
+                        "v1",
+                        "send"
+                    ]
+                },
+                "description": "Create new Student"
+            },
+            "response": [
+                {
+                    "name": "OK",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"fullName\": \"<string>\",\n  \"dob\": \"<date>\",\n  \"gender\": \"Other\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<string>\",\n  \"instituteName\": \"<string>\"\n}",
+                            "options": {
+                                "raw": {
+                                    "headerFamily": "json",
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/Student",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "Student"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n  \"fullName\": \"<string>\",\n  \"dob\": \"<date>\",\n  \"gender\": \"Other\",\n  \"mobile\": \"<string>\",\n  \"email\": \"<string>\",\n  \"instituteName\": \"<string>\"\n}"
+                },
+                {
+                    "name": "Send For Attest",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"entityName\": \"Student\",\n    \"entityId\": \"1-943a4cd1-a911-4076-a5e8-b8dfd2d6c2d0\",\n    \"name\": \"studentInstituteAttest\"\n}",
+                            "options": {
+                                "raw": {
+                                    "headerFamily": "json",
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/send",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "send"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": null,
+                    "header": [
+                        {
+                            "key": "Server",
+                            "value": "nginx/1.29.2"
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Thu, 20 Nov 2025 12:49:30 GMT"
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "key": "Transfer-Encoding",
+                            "value": "chunked"
+                        },
+                        {
+                            "key": "Connection",
+                            "value": "keep-alive"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Origin"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Access-Control-Request-Method"
+                        },
+                        {
+                            "key": "Vary",
+                            "value": "Access-Control-Request-Headers"
+                        },
+                        {
+                            "key": "X-Content-Type-Options",
+                            "value": "nosniff"
+                        },
+                        {
+                            "key": "X-XSS-Protection",
+                            "value": "1; mode=block"
+                        },
+                        {
+                            "key": "Cache-Control",
+                            "value": "no-cache, no-store, max-age=0, must-revalidate"
+                        },
+                        {
+                            "key": "Pragma",
+                            "value": "no-cache"
+                        },
+                        {
+                            "key": "Expires",
+                            "value": "0"
+                        },
+                        {
+                            "key": "X-Frame-Options",
+                            "value": "DENY"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n    \"id\": \"sunbird-rc.registry.send\",\n    \"ver\": \"1.0\",\n    \"ets\": 1763642969904,\n    \"params\": {\n        \"resmsgid\": \"\",\n        \"msgid\": \"27efce69-3905-4c5d-beca-0cdb44948aa8\",\n        \"err\": \"\",\n        \"status\": \"SUCCESSFUL\",\n        \"errmsg\": \"\"\n    },\n    \"responseCode\": \"OK\",\n    \"result\": {\n        \"attestationOSID\": \"1-ee67a810-5530-4190-aa6e-c3992d3bae59\"\n    }\n}"
+                }
+            ]
+        },
+        {
+            "name": "8. Get all Claims",
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "{{teacher_token}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {access-token}"
+                    }
+                ],
+                "url": {
+                    "raw": "{{host}}/registry/api/v1/Teacher/claims",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "registry",
+                        "api",
+                        "v1",
+                        "Teacher",
+                        "claims"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "9. Attest a claim",
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "{{teacher_token}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {access-token}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"action\":\"GRANT_CLAIM\"\n}"
+                },
+                "url": {
+                    "raw": "{{host}}/registry/api/v1/Teacher/claims/:claimId/attest",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "registry",
+                        "api",
+                        "v1",
+                        "Teacher",
+                        "claims",
+                        ":claimId",
+                        "attest"
+                    ],
+                    "variable": [
+                        {
+                            "key": "claimId",
+                            "value": "47a9be7d-dcc7-4723-b905-08a2515b2c18"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "10. Get Template Schema Id",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{host}}/credential-schema/credential-schema?tags=Student",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "",
+                        "credential-schema",
+                        "credential-schema"
+                    ],
+                    "query": [
+                        {
+                            "key": "tags",
+                            "value": "Student"
+                        }
+                    ]
+                },
+                "description": "Generated from cURL: curl --location '{{host}}/credential/credentials?tags=tag1&page=1&limit=25'"
+            },
+            "response": []
+        },
+        {
+            "name": "11. Get Template id",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"schemaId\": \"did:schema:ded41806-2bef-475f-80c4-2be7a8e9474f\",\n    \"schemaVersion\": \"1.0.0\",\n    \"template\": \"<html lang='en'><head><meta charset='utf-8' /><title>Certificate of Completion</title><meta name='viewport' content='width=device-width, initial-scale=1' /><style>*{margin:0;padding:0;box-sizing:border-box}@page{size:A4 landscape;margin:15mm}body{font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;margin:0;padding:0;background:#fff;print-color-adjust:exact;-webkit-print-color-adjust:exact}.outer-border{width:100%;height:100vh;padding:15px;text-align:center;border:20px solid #d4b56a;font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;margin:0;display:flex;flex-direction:column;box-sizing:border-box;background:#fff}.inner-border{padding:25px;text-align:center;border:4px solid #d4b56a;flex:1;display:flex;flex-direction:column;box-sizing:border-box;position:relative;background:#fff}.inner-border::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:2px solid #d4b56a;pointer-events:none}.inner-border::after{content:'';position:absolute;top:15px;left:15px;right:15px;bottom:15px;border:1px solid #d4b56a;pointer-events:none;box-shadow:inset 0 0 15px rgba(212,181,106,0.15)}.content{position:relative;flex:1;display:flex;flex-direction:column;z-index:1;padding:10px 0}.logo{height:60px;width:auto;margin:0 auto 12px;border-radius:0;display:block;object-fit:contain}.title{font-size:44px;font-weight:700;color:#1f5fbf;margin:8px 0 24px}.body{font-size:18px;color:#333;max-width:820px;margin:0 auto 32px;line-height:1.7;flex:1}.body>div{margin:8px 0}.recipient{font-size:28px;font-weight:700;margin:18px 0;color:#222}.meta{font-weight:600;margin-top:24px;color:#444;font-size:16px}.footer{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:30px 40px 0;flex-shrink:0;width:100%;min-height:fit-content}.sign-blocks{display:flex;gap:40px;align-items:flex-end;justify-content:flex-start}.sign{text-align:left;min-width:220px}.sign .name{font-size:14px;font-weight:700;margin-bottom:4px;color:#222}.sign .designation{font-size:12px;color:#666}.verify{text-align:right;font-size:12px;color:#666;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end}@media print{*{print-color-adjust:exact;-webkit-print-color-adjust:exact}body{height:210mm;width:297mm;margin:0;padding:0;overflow:visible}.outer-border{width:297mm;height:210mm;min-height:210mm;max-height:210mm;padding:12px;border:18px solid #d4b56a;page-break-after:avoid;page-break-inside:avoid;margin:0}.inner-border{padding:20px;border:4px solid #d4b56a}.content{height:100%;overflow:visible}}</style></head><body><div class='outer-border'><div class='inner-border'><div class='content'><img class='logo' alt='Issuer Logo' src='https://sunbird.org/images/sunbird-logo-new.png' /><div class='title'>Academic Attestation Certificate</div><div class='body'><div>This is to formally certify that</div><div class='recipient'>{{fullName}}</div><div>is a student of <strong>{{instituteName}}</strong></div><div>Degree Awarded: <strong>{{degree}}</strong></div><div>Grade Achieved: <strong>{{grade}}</strong></div><div style='margin-top:18px;'>This attestation is issued by the institute acknowledging the authenticity of the above academic details.</div></div><div class='footer'><div class='sign-blocks'><div class='sign'><div class='designation'>Scan to verify</div></div></div><div class='verify'><div style='width:110px;height:110px;border:1px dashed #ddd;margin:0 0 8px 0;display:flex;align-items:center;justify-content:center;'><img src='{{qr}}' alt='QR Code' style='width:100%;height:100%;object-fit:contain;' /></div><div>Authorized Signatory</div></div></div></div></div></div></body></html>\",\n    \"type\": \"Handlebar\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{host}}/credential-schema/template",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "credential-schema",
+                        "template"
+                    ]
+                }
+            },
+            "response": [
+                {
+                    "name": "Add new Template",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"schemaId\": \"did:schema:b22f7835-0255-412b-8663-d1131c48aa66\",\n    \"schemaVersion\": \"3.0.0\",\n    \"template\": \"<html lang='en'><head><meta charset='UTF-8' /><meta http-equiv='X-UA-Compatible' content='IE=edge' /><meta name='viewport' content='width=device-width, initial-scale=1.0' /><script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script><link rel='stylesheet' href='style.css' /><title>Certificate</title></head><body><div class='outer-border'><div class='inner-dotted-border'><img class='logo' src='https://www.vid.no/site/assets/files/17244/christ-deemed-to-be-university-vid.png' alt='' /><br /><span class='certification'>CERTIFICATE OF COMPLETION</span><br /><br /><span class='certify'><i>is hereby awarded to</i></span><br /><br /><span class='name'><b>Daniel Vitorrie</b></span><br /><br /><span class='certify'><i>for successfully completing the</i></span><br /><br /><span class='fs-30 diploma'>diploma in Java Developer</span><br /><br /><span class='fs-20 thank'>Thank you for demonstrating the type of character and integrity that inspire others</span><br /><div class='footer'><div class='date'><span class='certify'><i>Awarded: </i></span><br /><span class='fs-20'> xxxxxx</span></div><div class='qr'>{{grade}}, {{programme}}, {{certifyingInstitute}}, {{evaluatingInstitute}}/></div><span class='sign'>Dean, Christ Univeristy</span></div></div></div></body><style>*{margin:1px;padding:0;box-sizing:border-box}.outer-border{width:80vw;padding:10px;text-align:center;border:10px solid #252F50;font-family:'Lato', sans-serif;margin:auto}.inner-dotted-border{padding:10px;text-align:center;border:2px solid #252F50}.logo{width:75px}.certification{font-size:50px;font-weight:bold;color:#252F50;font-family:\\\"Times New Roman\\\", Times, serif}.certify{font-size:20px;color:#252F50}.diploma{color:#252F50;font-family:\\\"Lucida Handwriting\\\", \\\"Comic Sans\\\", cursive}.name{font-size:30px;color:#252F50;border-bottom:1px solid;font-family:\\\"Lucida Handwriting\\\", \\\"Comic Sans\\\", cursive}.thank{color:#252F50}.fs-30{font-size:30px}.fs-20{font-size:20px}.footer{display:flex;justify-content:space-between;margin:0 4rem}.date{display:flex;align-self:flex-end}.date>.fs-20{font-family:\\\"Lucida Handwriting\\\", \\\"Comic Sans\\\", cursive}.qr{margin-top:1.25rem;display:flex;justify-content:end;margin-left:0.75rem;margin-right:0.75rem}.sign{border-top:1px solid;align-self:flex-end}</style></html>\",\n    \"type\": \"Handlebar\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{CREDSCHEMA_BASE_URL}}/template",
+                            "host": [
+                                "{{CREDSCHEMA_BASE_URL}}"
+                            ],
+                            "path": [
+                                "template"
+                            ]
+                        }
+                    },
+                    "status": "Created",
+                    "code": 201,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Length",
+                            "value": "2577"
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json; charset=utf-8"
+                        },
+                        {
+                            "key": "Date",
+                            "value": "Fri, 14 Jul 2023 07:23:37 GMT"
+                        }
+                    ],
+                    "cookie": [],
+                    "body": "{\n    \"template\": {\n        \"templateId\": \"clk295x390000pv84lb3qczpo\",\n        \"schemaId\": \"did:schema:b22f7835-0255-412b-8663-d1131c48aa66\",\n        \"template\": \"<html lang='en'><head><meta charset='UTF-8' /><meta http-equiv='X-UA-Compatible' content='IE=edge' /><meta name='viewport' content='width=device-width, initial-scale=1.0' /><script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script><link rel='stylesheet' href='style.css' /><title>Certificate</title></head><body><div class='outer-border'><div class='inner-dotted-border'><img class='logo' src='https://www.vid.no/site/assets/files/17244/christ-deemed-to-be-university-vid.png' alt='' /><br /><span class='certification'>CERTIFICATE OF COMPLETION</span><br /><br /><span class='certify'><i>is hereby awarded to</i></span><br /><br /><span class='name'><b>Daniel Vitorrie</b></span><br /><br /><span class='certify'><i>for successfully completing the</i></span><br /><br /><span class='fs-30 diploma'>diploma in Java Developer</span><br /><br /><span class='fs-20 thank'>Thank you for demonstrating the type of character and integrity that inspire others</span><br /><div class='footer'><div class='date'><span class='certify'><i>Awarded: </i></span><br /><span class='fs-20'> xxxxxx</span></div><div class='qr'>{{grade}}, {{programme}}, {{certifyingInstitute}}, {{evaluatingInstitute}}/></div><span class='sign'>Dean, Christ Univeristy</span></div></div></div></body><style>*{margin:1px;padding:0;box-sizing:border-box}.outer-border{width:80vw;padding:10px;text-align:center;border:10px solid #252F50;font-family:'Lato', sans-serif;margin:auto}.inner-dotted-border{padding:10px;text-align:center;border:2px solid #252F50}.logo{width:75px}.certification{font-size:50px;font-weight:bold;color:#252F50;font-family:\\\"Times New Roman\\\", Times, serif}.certify{font-size:20px;color:#252F50}.diploma{color:#252F50;font-family:\\\"Lucida Handwriting\\\", \\\"Comic Sans\\\", cursive}.name{font-size:30px;color:#252F50;border-bottom:1px solid;font-family:\\\"Lucida Handwriting\\\", \\\"Comic Sans\\\", cursive}.thank{color:#252F50}.fs-30{font-size:30px}.fs-20{font-size:20px}.footer{display:flex;justify-content:space-between;margin:0 4rem}.date{display:flex;align-self:flex-end}.date>.fs-20{font-family:\\\"Lucida Handwriting\\\", \\\"Comic Sans\\\", cursive}.qr{margin-top:1.25rem;display:flex;justify-content:end;margin-left:0.75rem;margin-right:0.75rem}.sign{border-top:1px solid;align-self:flex-end}</style></html>\",\n        \"type\": \"Handlebar\",\n        \"createdAt\": \"2023-07-14T07:23:37.798Z\",\n        \"updatedAt\": \"2023-07-14T07:23:37.798Z\",\n        \"createdBy\": null,\n        \"updatedBy\": null\n    }\n}"
+                }
+            ]
+        },
+        {
+            "name": "12. attestation certificate",
+            "request": {
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "{{student_token}}",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/pdf"
+                    },
+                    {
+                        "key": "template-id",
+                        "value": "cmifwkn7h0006k60m1434q5tm"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {access-token}",
+                        "disabled": true
+                    }
+                ],
+                "url": {
+                    "raw": "{{host}}/registry/api/v1/Student/{{student_osid}}/attestation/studentInstituteAttest/1-5317d5ed-2fb2-4317-9990-8f1bd0ffd70f",
+                    "host": [
+                        "{{host}}"
+                    ],
+                    "path": [
+                        "registry",
+                        "api",
+                        "v1",
+                        "Student",
+                        "{{student_osid}}",
+                        "attestation",
+                        "studentInstituteAttest",
+                        "1-5317d5ed-2fb2-4317-9990-8f1bd0ffd70f"
+                    ],
+                    "query": [
+                        {
+                            "key": "Accept",
+                            "value": "application/pdf",
+                            "disabled": true
+                        },
+                        {
+                            "key": "template-id",
+                            "value": "cmifvzc160000k60mwksu1331",
+                            "disabled": true
+                        }
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
